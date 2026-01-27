@@ -103,6 +103,7 @@ alert {
     background-color: red;
 }
 
+/* Centrar el botón de eliminar todas las tareas*/
 .deleteAll {
     text-align: center;
     margin: 10px;
