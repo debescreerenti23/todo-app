@@ -3,8 +3,8 @@ body {
     /* Tipo de letra: usa Arial y, si no está disponible, otras sans-serif */
     font-family: Arial, Helvetica, sans-serif;
 
-    /* Color de fondo gris claro */
-    background: #bcceb7;
+    /* Color de fondo verde claro */
+    background: #90db7c;
 
     /* Flexbox para centrar el contenido */
     display: flex;
