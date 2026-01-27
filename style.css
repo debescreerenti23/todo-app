@@ -103,6 +103,10 @@ alert {
     background-color: red;
 }
 
+.deleteAll {
+    text-align: center;
+    margin: 10px;
+}
 /* 🧠 Conceptos clave que deberías quedarte
 
 display: flex → sirve para alinear elementos fácilmente
