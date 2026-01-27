@@ -1,0 +1,114 @@
+/* Estilos generales para todo el body (toda la página) */
+body {
+    /* Tipo de letra: usa Arial y, si no está disponible, otras sans-serif */
+    font-family: Arial, Helvetica, sans-serif;
+
+    /* Color de fondo gris claro */
+    background: #bcceb7;
+
+    /* Flexbox para centrar el contenido */
+    display: flex;
+
+    /* Centra horizontalmente el contenido */
+    justify-content: center;
+
+    /* Espacio desde arriba para que la app no quede pegada */
+    padding-top: 50px;
+}
+
+/* Contenedor principal de la aplicación */
+.app {
+    /* Fondo blanco para destacar sobre el fondo gris */
+    background: white;
+
+    /* Espacio interno entre el borde y el contenido */
+    padding: 20px;
+
+    /* Ancho fijo de la app */
+    width: 300px;
+
+    /* Bordes redondeados */
+    border-radius: 8px;
+
+    /* Prefijos para compatibilidad con navegadores antiguos */
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+}
+
+/* Sección donde está el input y el botón */
+.input-section {
+    /* Coloca los elementos en fila */
+    display: flex;
+
+    /* Espacio entre el input y el botón */
+    gap: 10px;
+}
+
+/* Input donde se escribe la tarea */
+#taskInput {
+    /*Hacequeelinputocupetodoelespaciodisponible*/flex: 1;
+    /*Espaciointernoparaqueeltextonoquedepegado*/padding: 5px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+}
+
+/* Estilos para cada elemento de la lista (cada tarea) */
+li {
+    /* Quita los puntos de la lista */
+    list-style: none;
+
+    /* Espacio superior entre tareas */
+    margin-top: 10px;
+
+    /* Flexbox para alinear texto y botones */
+    display: flex;
+
+    /* Separa el texto de los botones (uno a cada lado) */
+    justify-content: space-between;
+}
+
+/* Clase que se aplica cuando una tarea está completada */
+.completed {
+    /* Tacha el texto */
+    text-decoration: line-through;
+
+    /* Hace el texto un poco transparente */
+    opacity: 0.6;
+    color: #7b8877
+}
+
+button {
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: #c7cfc5;
+}
+
+input:hover {
+    background-color: #c7cfc5;
+}
+
+alert {
+    background-color: red;
+}
+
+/* 🧠 Conceptos clave que deberías quedarte
+
+display: flex → sirve para alinear elementos fácilmente
+
+justify-content: center / space-between → controla la posición horizontal
+
+flex: 1 → hace que un elemento ocupe el espacio disponible
+
+.completed → es una clase pensada para ser activada con JavaScript */

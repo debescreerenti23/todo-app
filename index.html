@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Contenedor principal de la app -->
+    <div class="app">
+
+        <!-- Título -->
+        <h2 style="text-align: center;">📑 Lista de tareas</h2>
+
+        <!-- Sección del input y el botón -->
+        <div class="input-section">
+            <!-- Campo donde el usuario escribe la tarea -->
+            <input type="text" id="taskInput" placeholder="Nueva tarea">
+
+            <!-- Botón para añadir la tarea -->
+            <button id="addTaskBtn">Añadir</button>
+        </div>
+
+        <div class="deleteAll">
+            <button class="deleteAllBtn">Eliminar todas las tareas</button>
+
+        </div>
+
+        <!-- Lista donde se insertarán las tareas -->
+        <ul id="taskList"></ul>
+
+        <div id="taskCounter">
+            Total: <span id="totalTasks">0</span> |
+            Completadas: <span id="completedTasks">0</span> |
+            Pendientes: <span id="pendingTasks">0</span>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
