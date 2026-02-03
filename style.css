@@ -3,7 +3,9 @@ body {
     /* Tipo de letra: usa Arial y, si no está disponible, otras sans-serif */
     font-family: Arial, Helvetica, sans-serif;
 
-    /* Imagen de fondo */
+    /* Quitar marco alrededor del marco del fondo de pantalla  */
+    margin: 0;
+    padding: 0;
   
     /* Flexbox para centrar el contenido */
     display: flex;
@@ -15,26 +17,30 @@ body {
     padding-top: 50px;
 }
 
+/* Contenedor principal con imagen de fondo */
 .fondo {
-  position: relative;
-  background-image: url("bg.png");
-  background-size: cover;
-  background-position: center;
-  min-height: 100vh;
+  position: relative; /* Permite posicionar elementos absolutos dentro (como ::before) */
+  background-image: url("bg.png"); /* Imagen que se usa como fondo */
+  background-size: cover; /* Hace que la imagen cubra todo el contenedor sin deformarse */
+  background-position: center; /* Centra la imagen dentro del fondo */
+  min-height: 100vh; /* Altura mínima igual al alto de la pantalla */
 }
 
+/* Capa oscura encima del fondo (overlay) */
 .fondo::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 0;
+  content: ""; /* Necesario para que el pseudo-elemento exista */
+  position: absolute; /* Se posiciona respecto al contenedor .fondo */
+  inset: 0; /* Equivale a top:0, right:0, bottom:0, left:0 (ocupa todo el contenedor) */
+  background: rgba(0, 0, 0, 0.5); /* Color negro con transparencia para oscurecer la imagen */
+  z-index: 0; /* Se coloca detrás del contenido real */
 }
 
+/* Asegura que el contenido esté por encima de la capa oscura */
 .fondo > * {
-  position: relative;
-  z-index: 1;
+  position: relative; /* Permite aplicar z-index correctamente */
+  z-index: 1; /* Sitúa el contenido por encima del overlay oscuro */
 }
+
 
 
 /* Contenedor principal de la aplicación */
