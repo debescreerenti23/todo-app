@@ -1,5 +1,5 @@
 ********** Task project by javilindj ***********
 
-All right reserved - 2026
+********** All right reserved - 2026 ***********
 
-Sigma world order
+*************** Sigma world order **************
