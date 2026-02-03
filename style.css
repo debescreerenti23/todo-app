@@ -3,9 +3,8 @@ body {
     /* Tipo de letra: usa Arial y, si no está disponible, otras sans-serif */
     font-family: Arial, Helvetica, sans-serif;
 
-    /* Color de fondo verde claro */
-    background: #90db7c;
-
+    /* Imagen de fondo */
+  
     /* Flexbox para centrar el contenido */
     display: flex;
 
@@ -15,6 +14,28 @@ body {
     /* Espacio desde arriba para que la app no quede pegada */
     padding-top: 50px;
 }
+
+.fondo {
+  position: relative;
+  background-image: url("bg.png");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
+
+.fondo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 0;
+}
+
+.fondo > * {
+  position: relative;
+  z-index: 1;
+}
+
 
 /* Contenedor principal de la aplicación */
 .app {
@@ -26,6 +47,7 @@ body {
 
     /* Ancho fijo de la app */
     width: 300px;
+    height: 400px;
 
     /* Bordes redondeados */
     border-radius: 8px;
