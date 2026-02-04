@@ -76,8 +76,8 @@ body {
 
 /* Input donde se escribe la tarea */
 #taskInput {
-    /*Hacequeelinputocupetodoelespaciodisponible*/flex: 1;
-    /*Espaciointernoparaqueeltextonoquedepegado*/padding: 5px;
+    flex: 1; /*Hace que el input ocupe todo el espacio disponible*/
+    padding: 5px; /*Espacio interno para que el texto no quede pegado*/
     border-radius: 8px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
@@ -123,18 +123,22 @@ button:hover {
     background-color: #c7cfc5;
 }
 
-input:hover {
-    background-color: #c7cfc5;
+
+input:focus {
+    outline: none;
+    border: 2px solid #7b8877;
 }
 
-alert {
-    background-color: red;
-}
+
 
 /* Centrar el botón de eliminar todas las tareas*/
 .deleteAll {
     text-align: center;
     margin: 10px;
+}
+
+.title {
+    text-align: center;
 }
 /* 🧠 Conceptos clave que deberías quedarte
 
