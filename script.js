@@ -152,3 +152,35 @@ function updateCounter() {
 
 loadTasks();
 updateCounter();             // Actualizamos el contador de tareas
+
+// Reloj
+
+const timeEl = document.getElementById("time");
+const dateEl = document.getElementById("date");
+
+function updateClock() {
+    const now = new Date();
+
+    // Hora
+    let hours = String(now.getHours()).padStart(2, "0");
+    let minutes = String(now.getMinutes()).padStart(2, "0");
+    let seconds = String(now.getSeconds()).padStart(2, "0");
+
+    timeEl.innerHTML = `${hours}:${minutes}:${seconds}`;
+
+    // Fecha
+    const weekdays = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+    const months = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+
+    const dayOfWeek = weekdays[now.getDay()];
+    const day = now.getDate();
+    const month = months[now.getMonth()];
+
+    dateEl.textContent = `${dayOfWeek}, ${day} ${month}`;
+}
+
+// Actualiza inmediatamente
+updateClock();
+
+// Y luego cada segundo
+setInterval(updateClock, 1000);

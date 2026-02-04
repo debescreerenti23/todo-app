@@ -15,6 +15,9 @@ body {
 
     /* Espacio desde arriba para que la app no quede pegada */
     padding-top: 50px;
+
+    /* Decirle al body que el contenedor de la app se vaya estirando conforme hayan más tareas  */
+    align-items: flex-start;
 }
 
 /* Contenedor principal con imagen de fondo */
@@ -140,6 +143,35 @@ input:focus {
 .title {
     text-align: center;
 }
+
+/* Estilo de reloj */
+
+#clock {
+    position: fixed; /* Se queda pegado a la pantalla, no se mueve al hacer scroll */
+    top:15px; /* Define los px de separación de alto respecto al tope*/
+    right: 20px; /* Define los px de separación a la derecha del marco */
+    background: rbga(255,255,255,0.8);
+    padding: 8px 12px;  /* Le da las medidas al objeto */
+    border-radius: 8px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: white;
+}
+
+#time {
+    font-size: 16px;
+}
+#date {
+    display: block;
+    font-size: 14px;
+    margin-top: 2px;
+    color: #16442d;
+}
+
+
+
+
 /* 🧠 Conceptos clave que deberías quedarte
 
 display: flex → sirve para alinear elementos fácilmente
