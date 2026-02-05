@@ -1,175 +1,211 @@
-/* Estilos generales para todo el body (toda la página) */
+/* ============================= */
+/* ESTILOS GENERALES DE LA PÁGINA */
+/* ============================= */
+
+/* Estilos base del body (toda la página) */
 body {
-    /* Tipo de letra: usa Arial y, si no está disponible, otras sans-serif */
+    /* Tipo de letra general */
     font-family: Arial, Helvetica, sans-serif;
 
-    /* Quitar marco alrededor del marco del fondo de pantalla  */
+    /* Eliminamos márgenes y paddings por defecto del navegador */
     margin: 0;
     padding: 0;
-  
-    /* Flexbox para centrar el contenido */
+
+    /* Usamos flexbox para organizar el contenido */
     display: flex;
 
-    /* Centra horizontalmente el contenido */
-    justify-content: center;
+    /* Colocamos los elementos uno debajo del otro */
+    flex-direction: column;
 
-    /* Espacio desde arriba para que la app no quede pegada */
+    /* Centramos horizontalmente los elementos */
+    align-items: center;
+
+    /* Separación desde arriba */
     padding-top: 50px;
 
-    /* Decirle al body que el contenedor de la app se vaya estirando conforme hayan más tareas  */
-    align-items: flex-start;
+    /* Imagen de fondo */
+    background-image: url("bg.png");
+    background-size: cover;      /* La imagen cubre toda la pantalla */
+    background-position: center; /* Centrada */
+    min-height: 100vh;           /* Altura mínima: toda la pantalla */
+
+    /* Necesario para poder usar ::before */
+    position: relative;
 }
 
-/* Contenedor principal con imagen de fondo */
-.fondo {
-  position: relative; /* Permite posicionar elementos absolutos dentro (como ::before) */
-  background-image: url("bg.png"); /* Imagen que se usa como fondo */
-  background-size: cover; /* Hace que la imagen cubra todo el contenedor sin deformarse */
-  background-position: center; /* Centra la imagen dentro del fondo */
-  min-height: 100vh; /* Altura mínima igual al alto de la pantalla */
+/* ----------------------------- */
+/* Capa oscura sobre el fondo */
+/* ----------------------------- */
+
+/* Esta capa sirve para oscurecer la imagen de fondo */
+body::before {
+    content: "";               /* Obligatorio para que exista */
+    position: absolute;        /* Se posiciona respecto al body */
+    inset: 0;                  /* Ocupa todo el body */
+    background: rgba(0,0,0,0.5); /* Negro semitransparente */
+    z-index: 0;                /* Se coloca detrás del contenido */
 }
 
-/* Capa oscura encima del fondo (overlay) */
-.fondo::before {
-  content: ""; /* Necesario para que el pseudo-elemento exista */
-  position: absolute; /* Se posiciona respecto al contenedor .fondo */
-  inset: 0; /* Equivale a top:0, right:0, bottom:0, left:0 (ocupa todo el contenedor) */
-  background: rgba(0, 0, 0, 0.5); /* Color negro con transparencia para oscurecer la imagen */
-  z-index: 0; /* Se coloca detrás del contenido real */
+/* Hace que todo el contenido esté por encima del fondo oscuro */
+body > * {
+    position: relative;
+    z-index: 1;
 }
 
-/* Asegura que el contenido esté por encima de la capa oscura */
-.fondo > * {
-  position: relative; /* Permite aplicar z-index correctamente */
-  z-index: 1; /* Sitúa el contenido por encima del overlay oscuro */
+/* ============================= */
+/* HEADER CON RELOJ */
+/* ============================= */
+
+/* Contenedor superior donde va el reloj */
+.header {
+    width: 100%;               /* Ocupa todo el ancho */
+    display: flex;             /* Flexbox */
+    justify-content: flex-end; /* Empuja el reloj a la derecha */
+    padding: 10px 20px;
+    box-sizing: border-box;    /* Padding incluido en el ancho */
 }
 
-
-
-/* Contenedor principal de la aplicación */
-.app {
-    /* Fondo blanco para destacar sobre el fondo gris */
+/* Caja visual del reloj */
+#clock {
     background: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    text-align: center;
+}
 
-    /* Espacio interno entre el borde y el contenido */
+/* Hora (HH:MM:SS) */
+#time {
+    font-size: 16px;
+}
+
+/* Fecha (día, número y mes) */
+#date {
+    display: block;
+    font-size: 14px;
+    margin-top: 2px;
+    color: #333;
+}
+
+/* ============================= */
+/* CONTENEDOR DE LA APP */
+/* ============================= */
+
+/* Caja blanca principal de la To-Do App */
+.app {
+    background: white;
     padding: 20px;
-
-    /* Ancho fijo de la app */
-    width: 380px;
-    
-
-    /* Bordes redondeados */
+    width: 380px;              /* Ancho fijo en escritorio */
     border-radius: 8px;
 
-    /* Prefijos para compatibilidad con navegadores antiguos */
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    -ms-border-radius: 8px;
-    -o-border-radius: 8px;
+    /* Sombra para efecto tarjeta */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+
+    /* Organización vertical interna */
+    display: flex;
+    flex-direction: column;
+
+    /* Separación respecto al reloj */
+    margin-top: 20px;
 }
 
-/* Sección donde está el input y el botón */
+/* ============================= */
+/* INPUT Y BOTÓN */
+/* ============================= */
+
+/* Contenedor del input y botón */
 .input-section {
-    /* Coloca los elementos en fila */
-    display: flex;
-
-    /* Espacio entre el input y el botón */
-    gap: 10px;
+    display: flex; /* Input y botón en fila */
+    gap: 10px;     /* Espacio entre ellos */
 }
 
-/* Input donde se escribe la tarea */
+/* Input de texto */
 #taskInput {
-    flex: 1; /*Hace que el input ocupe todo el espacio disponible*/
-    padding: 5px; /*Espacio interno para que el texto no quede pegado*/
+    flex: 1;              /* Ocupa todo el espacio disponible */
+    padding: 5px;
     border-radius: 8px;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    -ms-border-radius: 8px;
-    -o-border-radius: 8px;
 }
 
-/* Estilos para cada elemento de la lista (cada tarea) */
-li {
-    /* Quita los puntos de la lista */
-    list-style: none;
-
-    /* Espacio superior entre tareas */
-    margin-top: 10px;
-
-    /* Flexbox para alinear texto y botones */
-    display: flex;
-
-    /* Separa el texto de los botones (uno a cada lado) */
-    justify-content: space-between;
-}
-
-/* Clase que se aplica cuando una tarea está completada */
-.completed {
-    /* Tacha el texto */
-    text-decoration: line-through;
-
-    /* Hace el texto un poco transparente */
-    opacity: 0.6;
-    color: #7b8877
-}
-
+/* Botones generales */
 button {
     border-radius: 8px;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    -ms-border-radius: 8px;
-    -o-border-radius: 8px;
 }
 
+/* Efecto al pasar el ratón por encima */
 button:hover {
     cursor: pointer;
     background-color: #c7cfc5;
 }
 
-
-input:focus {
-    outline: none;
-    border: 2px solid #7b8877;
+/* Efecto al pasar el ratón sobre el input */
+input:hover {
+    background-color: #c7cfc5;
 }
 
+/* ============================= */
+/* LISTA DE TAREAS */
+/* ============================= */
 
+/* Cada tarea */
+li {
+    list-style: none;      /* Quitamos el punto de lista */
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between; /* Texto a la izquierda, botón a la derecha */
+}
 
-/* Centrar el botón de eliminar todas las tareas*/
+/* Clase aplicada cuando una tarea está completada */
+.completed {
+    text-decoration: line-through; /* Texto tachado */
+    opacity: 0.6;
+    color: #7b8877;
+}
+
+/* ============================= */
+/* BOTÓN ELIMINAR TODAS */
+/* ============================= */
+
 .deleteAll {
     text-align: center;
     margin: 10px;
 }
 
-.title {
+/* ============================= */
+/* CONTADOR DE TAREAS */
+/* ============================= */
+
+#taskCounter {
+    margin-top: 10px;
     text-align: center;
 }
 
-/* Estilo de reloj */
+/* ============================= */
+/* DISEÑO RESPONSIVO */
+/* ============================= */
 
-#clock {
-    position: fixed; /* Se queda pegado a la pantalla, no se mueve al hacer scroll */
-    top:15px; /* Define los px de separación de alto respecto al tope*/
-    right: 20px; /* Define los px de separación a la derecha del marco */
-    background: rbga(255,255,255,0.8);
-    padding: 8px 12px;  /* Le da las medidas al objeto */
-    border-radius: 8px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
-    font-weight: bold;
-    background-color: white;
+/* Estilos para pantallas pequeñas (móvil) */
+@media (max-width: 500px) {
+
+    /* La app ocupa casi todo el ancho */
+    .app {
+        width: 90%;
+        padding: 15px;
+    }
+
+    /* El reloj se hace más pequeño */
+    #clock {
+        font-size: 14px;
+        padding: 6px 10px;
+        margin-bottom: 10px;
+    }
+
+    /* Texto más pequeño en inputs y botones */
+    #taskInput,
+    button {
+        font-size: 14px;
+    }
 }
-
-#time {
-    font-size: 16px;
-}
-#date {
-    display: block;
-    font-size: 14px;
-    margin-top: 2px;
-    color: #16442d;
-}
-
-
 
 
 /* 🧠 Conceptos clave que deberías quedarte
