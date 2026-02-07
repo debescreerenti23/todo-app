@@ -239,3 +239,41 @@ updateClock();
 
 // Y luego cada segundo
 setInterval(updateClock, 1000);
+
+// Widget tiempo
+const weatherCity = document.getElementById("weatherCity");
+const weatherTemp = document.getElementById("weatherTemp");
+const weatherDesc = document.getElementById("weatherDesc");
+
+const API_KEY = "53af2a587748aae5d8c43ffc0f6580e4";
+const CITY = "Madrid";
+
+async function getWeather() {
+    try {
+        const response = await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?q=${CITY}&units=metric&lang=es&appid=${API_KEY}`
+        );
+
+        if (!response.ok) {
+            throw new Error("Error al obtener el tiempo");
+        }
+
+        const data = await response.json();
+
+        // Datos importantes
+        const temp = Math.round(data.main.temp);
+        const description = data.weather[0].description;
+        const cityName = data.name;
+
+        // Pintamos en el DOM
+        weatherCity.textContent = cityName;
+        weatherTemp.textContent = `${temp} °C`;
+        weatherDesc.textContent = description;
+
+    } catch (error) {
+        weatherCity.textContent = "Tiempo no disponible";
+        console.error(error);
+    }
+}
+
+getWeather();
