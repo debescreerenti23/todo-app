@@ -30,12 +30,21 @@ function loadTasks() {
 
 // 4️⃣ Función para crear los elementos HTML de cada tarea
 function createTaskElement(task) {
+    
+    
+    
     // Creamos un <li> que contendrá el texto y el botón
+
     const li = document.createElement("li");
 
     // Creamos un <span> para el texto de la tarea
     const span = document.createElement("span");
     span.textContent = task.text;
+
+    span.addEventListener("dblclick", () => {
+        startEditTask(span, task);
+    });
+
 
     // Si la tarea ya está completada, aplicamos la clase CSS
     if (task.completed) {
@@ -77,6 +86,52 @@ function createTaskElement(task) {
     // Añadimos el <li> a la lista visible en la app
     taskList.appendChild(li);
 }
+
+function startEditTask(span, task) {
+    // Creamos un input
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = task.text;
+
+    // Sustituimos el span por el input
+    span.replaceWith(input);
+    input.focus();
+
+    // Guardar al pulsar Enter
+    input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            finishEditTask(input, span, task);
+        }
+    });
+
+    // Guardar al perder foco
+    input.addEventListener("blur", () => {
+        finishEditTask(input, span, task);
+    });
+}
+
+function finishEditTask(input, span, task) {
+    const newText = input.value.trim();
+
+    if (newText === "") {
+        input.focus();
+        return;
+    }
+
+    // Actualizamos el objeto
+    task.text = newText;
+
+    // Actualizamos el DOM
+    span.textContent = newText;
+
+    // Volvemos al span
+    input.replaceWith(span);
+
+    // Persistimos
+    saveTasks();
+}
+
+
 
 // -----------------------------
 // 5️⃣ Capturamos los elementos del HTML
