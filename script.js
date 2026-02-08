@@ -246,7 +246,7 @@ const weatherTemp = document.getElementById("weatherTemp");
 const weatherDesc = document.getElementById("weatherDesc");
 
 const API_KEY = "53af2a587748aae5d8c43ffc0f6580e4";
-const CITY = "Madrid";
+const CITY = "Murcia";
 
 async function getWeather() {
     try {
