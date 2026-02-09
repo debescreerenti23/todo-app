@@ -1,110 +1,76 @@
 // -----------------------------
-// FASE 3 & 4: Lógica To-Do App con localStorage
+// TO-DO APP con localStorage
 // -----------------------------
 
-// 1️⃣ Array donde guardaremos todas las tareas
-// Cada tarea es un objeto: { text: "tarea", completed: false }
 let tasks = [];
 
-// 2️⃣ Función para guardar las tareas en el navegador
+// Guardar tareas
 function saveTasks() {
-    // Convierte el array tasks a JSON y lo guarda en localStorage
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-// 3️⃣ Función para cargar tareas desde localStorage al iniciar la app
+// Cargar tareas
 function loadTasks() {
-    // Recupera el string JSON
     const storedTasks = localStorage.getItem("tasks");
-
     if (storedTasks) {
-        // Convierte JSON a array de objetos
         tasks = JSON.parse(storedTasks);
-
-        // Recorre cada tarea y la dibuja en la lista
-        tasks.forEach(task => {
-            createTaskElement(task);
-        });
+        tasks.forEach(task => createTaskElement(task));
     }
 }
 
-// 4️⃣ Función para crear los elementos HTML de cada tarea
+// Crear tarea en el DOM
 function createTaskElement(task) {
-    
-    
-    
-    // Creamos un <li> que contendrá el texto y el botón
-
     const li = document.createElement("li");
 
-    // Creamos un <span> para el texto de la tarea
     const span = document.createElement("span");
     span.textContent = task.text;
 
-    span.addEventListener("dblclick", () => {
-        startEditTask(span, task);
-    });
-
-
-    // Si la tarea ya está completada, aplicamos la clase CSS
     if (task.completed) {
         span.classList.add("completed");
     }
 
-    // Evento para marcar como completada o desmarcar
+    // Completar tarea
     span.addEventListener("click", () => {
-        task.completed = !task.completed;  // Cambia el estado en el array
-        span.classList.toggle("completed"); // Cambia el estilo en el DOM
-        saveTasks(); // Guarda el cambio en localStorage
-        updateCounter();             // Actualizamos el contador de tareas
+        task.completed = !task.completed;
+        span.classList.toggle("completed");
+        saveTasks();
+        updateCounter();
     });
 
-    // Creamos el botón de eliminar
+    // Editar tarea
+    span.addEventListener("dblclick", () => {
+        startEditTask(span, task);
+    });
+
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "❌";
 
-    // Evento para eliminar la tarea
-    
     deleteBtn.addEventListener("click", () => {
-        const ok = confirm("¿Deseas eliminar esta tarea?");
-
-        if (ok) {
-        // Filtra la tarea del array
+        if (!confirm("¿Eliminar tarea?")) return;
         tasks = tasks.filter(t => t !== task);
-
-        li.remove();   // La elimina del DOM
-        saveTasks();   // Guarda los cambios en localStorage
-        updateCounter();             // Actualizamos el contador de tareas
-        }
+        li.remove();
+        saveTasks();
+        updateCounter();
     });
 
-
-    // Añadimos el texto y el botón dentro del <li>
     li.appendChild(span);
     li.appendChild(deleteBtn);
-
-    // Añadimos el <li> a la lista visible en la app
     taskList.appendChild(li);
 }
 
+// Editar tarea
 function startEditTask(span, task) {
-    // Creamos un input
     const input = document.createElement("input");
     input.type = "text";
     input.value = task.text;
 
-    // Sustituimos el span por el input
     span.replaceWith(input);
     input.focus();
 
-    // Guardar al pulsar Enter
-    input.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-            finishEditTask(input, span, task);
-        }
+    input.addEventListener("keydown", e => {
+        if (e.key === "Enter") finishEditTask(input, span, task);
     });
 
-    // Guardar al perder foco
     input.addEventListener("blur", () => {
         finishEditTask(input, span, task);
     });
@@ -112,103 +78,66 @@ function startEditTask(span, task) {
 
 function finishEditTask(input, span, task) {
     const newText = input.value.trim();
+    if (newText === "") return;
 
-    if (newText === "") {
-        input.focus();
-        return;
-    }
-
-    // Actualizamos el objeto
     task.text = newText;
-
-    // Actualizamos el DOM
     span.textContent = newText;
-
-    // Volvemos al span
     input.replaceWith(span);
-
-    // Persistimos
     saveTasks();
 }
 
-
-
 // -----------------------------
-// 5️⃣ Capturamos los elementos del HTML
+// Elementos HTML
 // -----------------------------
+
 const taskInput = document.getElementById("taskInput");
 const addTaskBtn = document.getElementById("addTaskBtn");
 const taskList = document.getElementById("taskList");
 
-// -----------------------------
-// 6️⃣ Evento: añadir tarea al hacer click en el botón
-// -----------------------------
 addTaskBtn.addEventListener("click", () => {
-    const taskText = taskInput.value.trim(); // Quita espacios al principio y final
+    const text = taskInput.value.trim();
+    if (text === "") return alert("Añade una tarea");
 
-    // Si el input está vacío, no hacemos nada
-    if (taskText === "") {
-        alert("Añade una tarea, por favor");
-        return;
-    } 
-    
-
-    // Creamos el objeto tarea
-    const newTask = {
-        text: taskText,
-        completed: false
-    };
-
-    tasks.push(newTask);         // Añadimos la tarea al array
-    createTaskElement(newTask);   // La mostramos en pantalla
-    saveTasks();                  // Guardamos el array actualizado
-    taskInput.value = "";         // Limpiamos el input
-    updateCounter();             // Actualizamos el contador de tareas
+    const newTask = { text, completed: false };
+    tasks.push(newTask);
+    createTaskElement(newTask);
+    saveTasks();
+    taskInput.value = "";
+    updateCounter();
 });
 
-    // Evento para crear tarea al presionar Enter
-
-taskInput.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        addTaskBtn.click(); // Simula click en el botón "Añadir"
-    }
+taskInput.addEventListener("keydown", e => {
+    if (e.key === "Enter") addTaskBtn.click();
 });
 
-// -----------------------------
-// 7️⃣ Cargar las tareas guardadas al iniciar la app
-// -----------------------------
-const deleteallbtn = document.querySelector(".deleteAll button");
-deleteallbtn.addEventListener("click", deleteAll);  
+// Eliminar todas
+document.querySelector(".deleteAll button").addEventListener("click", () => {
+    if (!confirm("¿Eliminar todas las tareas?")) return;
+    tasks = [];
+    taskList.innerHTML = "";
+    saveTasks();
+    updateCounter();
+});
 
-
-function deleteAll() {
-    const ok = confirm("¿Deseas eliminar todas las tareas?");           
-    if (!ok) return;
-
-    tasks = [];                // Vacía el array de tareas
-    taskList.innerHTML = "";   // Vacía la lista en el DOM
-    saveTasks();               // Guarda el array vacío en localStorage
-    updateCounter();             // Actualizamos el contador de tareas
-}
-
+// Contador
 const totalTasks = document.getElementById("totalTasks");
 const completedTasks = document.getElementById("completedTasks");
 const pendingTasks = document.getElementById("pendingTasks");
 
 function updateCounter() {
-    const total = tasks.length;     
-    const completed = tasks.filter(task => task.completed).length;
-    const pending = total - completed;
-
+    const total = tasks.length;
+    const completed = tasks.filter(t => t.completed).length;
     totalTasks.textContent = total;
     completedTasks.textContent = completed;
-    pendingTasks.textContent = pending;
+    pendingTasks.textContent = total - completed;
 }
 
 loadTasks();
-updateCounter();             // Actualizamos el contador de tareas
+updateCounter();
 
-// Reloj
+// -----------------------------
+// RELOJ
+// -----------------------------
 
 const timeEl = document.getElementById("time");
 const dateEl = document.getElementById("date");
@@ -216,64 +145,94 @@ const dateEl = document.getElementById("date");
 function updateClock() {
     const now = new Date();
 
-    // Hora
-    let hours = String(now.getHours()).padStart(2, "0");
-    let minutes = String(now.getMinutes()).padStart(2, "0");
-    let seconds = String(now.getSeconds()).padStart(2, "0");
+    timeEl.textContent =
+        String(now.getHours()).padStart(2, "0") + ":" +
+        String(now.getMinutes()).padStart(2, "0") + ":" +
+        String(now.getSeconds()).padStart(2, "0");
 
-    timeEl.innerHTML = `${hours}:${minutes}:${seconds}`;
-
-    // Fecha
-    const weekdays = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+    const days = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
     const months = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 
-    const dayOfWeek = weekdays[now.getDay()];
-    const day = now.getDate();
-    const month = months[now.getMonth()];
-
-    dateEl.textContent = `${dayOfWeek}, ${day} ${month}`;
+    dateEl.textContent = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]}`;
 }
 
-// Actualiza inmediatamente
 updateClock();
-
-// Y luego cada segundo
 setInterval(updateClock, 1000);
 
-// Widget tiempo
-const weatherCity = document.getElementById("weatherCity");
+// -----------------------------
+// WIDGET DEL TIEMPO
+// -----------------------------
+
+let weatherCity = document.getElementById("weatherCity");
 const weatherTemp = document.getElementById("weatherTemp");
 const weatherDesc = document.getElementById("weatherDesc");
 
 const API_KEY = "53af2a587748aae5d8c43ffc0f6580e4";
-const CITY = "Murcia";
 
-async function getWeather() {
+// Obtener tiempo
+async function getWeather(city) {
     try {
         const response = await fetch(
-            `https://api.openweathermap.org/data/2.5/weather?q=${CITY}&units=metric&lang=es&appid=${API_KEY}`
+            `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=es&appid=${API_KEY}`
         );
 
-        if (!response.ok) {
-            throw new Error("Error al obtener el tiempo");
-        }
+        if (!response.ok) throw new Error("Ciudad no encontrada");
 
         const data = await response.json();
 
-        // Datos importantes
-        const temp = Math.round(data.main.temp);
-        const description = data.weather[0].description;
-        const cityName = data.name;
-
-        // Pintamos en el DOM
-        weatherCity.textContent = cityName;
-        weatherTemp.textContent = `${temp} °C`;
-        weatherDesc.textContent = description;
+        weatherCity.textContent = data.name;
+        weatherTemp.textContent = `${Math.round(data.main.temp)} °C`;
+        weatherDesc.textContent = data.weather[0].description;
 
     } catch (error) {
         weatherCity.textContent = "Tiempo no disponible";
+        weatherTemp.textContent = "";
+        weatherDesc.textContent = error.message;
         console.error(error);
     }
 }
 
-getWeather();
+// Editar ciudad
+function editCity() {
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = weatherCity.textContent;
+
+    weatherCity.replaceWith(input);
+    input.focus();
+
+    input.addEventListener("keydown", e => {
+        if (e.key === "Enter") saveCity(input.value, input);
+    });
+
+    input.addEventListener("blur", () => {
+        saveCity(input.value, input);
+    });
+}
+
+function saveCity(cityName, input) {
+    const city = cityName.trim();
+    if (city === "") return;
+
+    localStorage.setItem("weatherCity", city);
+
+    const span = document.createElement("span");
+    span.id = "weatherCity";
+    span.textContent = city;
+    span.addEventListener("dblclick", editCity);
+
+    input.replaceWith(span);
+    weatherCity = span;
+
+    getWeather(city);
+}
+
+weatherCity.addEventListener("dblclick", editCity);
+
+// Ciudad inicial
+const savedCity = localStorage.getItem("weatherCity") || "Murcia";
+getWeather(savedCity);
+
+
+
+
