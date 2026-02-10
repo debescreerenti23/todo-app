@@ -182,7 +182,14 @@ async function getWeather(city) {
 
         weatherCity.textContent = data.name;
         weatherTemp.textContent = `${Math.round(data.main.temp)} °C`;
-        weatherDesc.textContent = data.weather[0].description;
+
+        if(data.weather[0].description === "cielo claro") {
+            weatherDesc.textContent = "☀️ Cielo claro";
+        }   else if(data.weather[0].description.includes("nubes")) {
+            weatherDesc.textContent = "☁️ Nubes";
+        } else {
+            weatherDesc.textContent = `🌤️ ${data.weather[0].description}`;
+        }   
 
     } catch (error) {
         weatherCity.textContent = "Tiempo no disponible";
