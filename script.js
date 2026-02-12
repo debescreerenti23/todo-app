@@ -169,35 +169,88 @@ const weatherDesc = document.getElementById("weatherDesc");
 
 const API_KEY = "53af2a587748aae5d8c43ffc0f6580e4";
 
-// Obtener tiempo
+
+// Función asíncrona para obtener el tiempo de una ciudad
 async function getWeather(city) {
+
     try {
+        // 1️⃣ Hacemos la petición a la API de OpenWeather
+        // - q=${city} → ciudad que queremos consultar
+        // - units=metric → grados en Celsius
+        // - lang=es → descripciones en español
+        // - appid=${API_KEY} → nuestra clave personal
         const response = await fetch(
             `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=es&appid=${API_KEY}`
         );
 
-        if (!response.ok) throw new Error("Ciudad no encontrada");
+        // 2️⃣ Si la respuesta no es correcta (ej: ciudad mal escrita)
+        // response.ok es false si el status no es 200
+        if (!response.ok) {
+            throw new Error("Ciudad no encontrada");
+        }
 
+        // 3️⃣ Convertimos la respuesta a formato JSON
+        // Aquí ya tenemos acceso a los datos reales
         const data = await response.json();
 
+        // 4️⃣ Mostramos el nombre real de la ciudad
+        // (La API puede devolver el nombre corregido)
         weatherCity.textContent = data.name;
+
+        // 5️⃣ Mostramos la temperatura redondeada
         weatherTemp.textContent = `${Math.round(data.main.temp)} °C`;
 
-        if(data.weather[0].description === "cielo claro") {
-            weatherDesc.textContent = "☀️ Cielo claro";
-        }   else if(data.weather[0].description.includes("nubes")) {
-            weatherDesc.textContent = "☁️ Nubes";
-        } else {
-            weatherDesc.textContent = `🌤️ ${data.weather[0].description}`;
-        }   
+        // 6️⃣ Guardamos el tipo principal de clima
+        // Esto es más estable que usar description
+        const weatherMain = data.weather[0].main;
+
+        // 7️⃣ Según el tipo de clima, elegimos icono
+        // Usamos switch porque es más limpio que muchos if
+        switch(weatherMain) {
+
+            case "Clear":
+                weatherDesc.textContent = "☀️ Cielo despejado";
+                break;
+
+            case "Clouds":
+                weatherDesc.textContent = "☁️ Nublado";
+                break;
+
+            case "Rain":
+            case "Drizzle":
+                weatherDesc.textContent = "🌧️ Lluvia";
+                break;
+
+            case "Snow":
+                weatherDesc.textContent = "❄️ Nieve";
+                break;
+
+            case "Thunderstorm":
+                weatherDesc.textContent = "⛈️ Tormenta";
+                break;
+
+            case "Mist":
+            case "Fog":
+                weatherDesc.textContent = "🌫️ Niebla";
+                break;
+
+            default:
+                // Si el clima no coincide con ninguno anterior,
+                // mostramos la descripción real que envía la API
+                weatherDesc.textContent = `🌤️ ${data.weather[0].description}`;
+        }
 
     } catch (error) {
+
+        // 8️⃣ Si ocurre cualquier error (API caída, ciudad incorrecta, etc)
         weatherCity.textContent = "Tiempo no disponible";
         weatherTemp.textContent = "";
         weatherDesc.textContent = error.message;
+
         console.error(error);
     }
 }
+
 
 // Editar ciudad
 function editCity() {
